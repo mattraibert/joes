@@ -24,6 +24,7 @@ page = a.click(page.link_with(:text => /My 401k/))
 page = a.click(page.link_with(:text => /Statements/))
 
 stmt = page.form do |f|
+  f.radiobutton_with(:name => /_ctl23__ctl1_rdoManual/).check
   f.field("_ctl23:_ctl1:txtFrom").value = "1/1/2007"
   f.field("_ctl23:_ctl1:txtTo").value = "1/1/2010"
 end.click_button
