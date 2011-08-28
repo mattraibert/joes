@@ -1,5 +1,3 @@
-require 'highline/import'
-require 'active_support/core_ext'
 require 'date'
 
 files = Dir.glob("*-*-*.txt").map do |filename|
@@ -9,13 +7,13 @@ files = Dir.glob("*-*-*.txt").map do |filename|
       file << line
     end
   end
-  file
+  [Date.parse(filename.sub(".txt","")), file]
 end
 
 data = files.map do |file|
   bal = 0
   interesting = []
-  file.each do |line|
+  file[1].each do |line|
     if bal > 0
       interesting << line
       bal += 1
@@ -25,10 +23,11 @@ data = files.map do |file|
       bal = 1
     end
   end
-  interesting
+  [file[0], interesting]
 end
 
-data.each do |datum| 
+data.each do |file|
+  datum = file[1]
   datum[2].gsub!("iShares", "XXXiShares")
   datum[2].gsub!("Vanguard", "XXXVanguard")
   datum[2].gsub!("SPDR","XXXSPDR")
@@ -43,5 +42,7 @@ data.each do |datum|
 
   myhash = {}
   funds.zip(balances){|fund,balance| myhash[fund] = balance}
+  puts file[0]
   puts myhash
 end
+
