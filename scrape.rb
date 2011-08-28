@@ -27,5 +27,6 @@ months.each do |date|
 
   `pdftotext #{file_name}`
   `rm #{file_name}`
+  puts "finished #{date}"
 end
 
