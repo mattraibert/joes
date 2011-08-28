@@ -6,7 +6,8 @@ require 'active_support/core_ext'
 a = Mechanize.new
 page = a.get("https://www.pai.com/employee/default.aspx")
 user_date = Date.parse(ask("401k start date"))
-months = (0..(4 * 12)).map { |month| user_date + month.months }
+user_months = ask("How many months?").to_i - 1
+months = (0..user_months).map { |month| user_date + month.months }
 
 page = page.form do |f| 
   f.txtUserName = ask("Enter Username")
