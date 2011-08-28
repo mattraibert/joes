@@ -23,23 +23,25 @@ data = files.map do |file|
     end
     if(/Ending Balance/ === line)
       bal = 1
-      puts "bals"
     end
   end
   interesting
 end
 
-puts "DATA TIME"
-
 data.each do |datum| 
   datum[2].gsub!("iShares", "XXXiShares")
   datum[2].gsub!("Vanguard", "XXXVanguard")
   datum[2].gsub!("SPDR","XXXSPDR")
+  datum[2].sub!("XXX","")
+  
+  
   funds = datum[2].split("XXX")
+  funds << "TOTAL"
   balances = datum[0].split(" ")
-  puts funds.join " | "
-  puts balances
+#  puts funds.join " | "
+#  puts balances
 
-#  myhash = {}
-#  puts funds.zip(balances){|fund,balance| myhash[fund] = balance}
+  myhash = {}
+  funds.zip(balances){|fund,balance| myhash[fund] = balance}
+  puts myhash
 end
