@@ -21,17 +21,42 @@ Dir.glob("*-*-*.txt").each do |filename|
   files[Date.parse(filename.sub(".txt",""))] = file
 end
 
+class DataFile
+  attr_reader :balances, :funds
+  
+  def set_funds funds_line
+    funds_line.strip
+    funds_line.gsub!("iShares", "XXXiShares")
+    funds_line.gsub!("Vanguard", "XXXVanguard")
+    funds_line.gsub!("SPDR","XXXSPDR")
+    funds_line.sub!("XXX","")
+    @funds = funds_line.split("XXX").map {|f| f.strip }
+    @funds << "TOTAL"
+  end
+
+  def set_balances balances_line
+    @balances = balances_line.split(" ")
+  end
+end
+
 data = files.hashmap do |date, file|
   bal = 0
-  interesting = []
+
+  interesting = DataFile.new
   file.each do |line|
-    if bal > 0
-      interesting << line
-      bal += 1
-      bal %= 4
-    end
     if(/Ending Balance/ === line)
       bal = 1
+    end
+    if(bal == 2)
+      interesting.set_balances line
+    end
+    if(bal == 4)
+      puts line
+      interesting.set_funds line
+    end
+    if bal > 0
+      bal += 1
+      bal %= 5
     end
   end
   interesting
@@ -46,18 +71,8 @@ class Array
 end
 
 data = data.hashmap do |date, file|
-  datum = file
-  datum[2].strip
-  datum[2].gsub!("iShares", "XXXiShares")
-  datum[2].gsub!("Vanguard", "XXXVanguard")
-  datum[2].gsub!("SPDR","XXXSPDR")
-  datum[2].sub!("XXX","")
-  funds = datum[2].split("XXX")
-  funds << "TOTAL"
-  balances = datum[0].split(" ")
-
   hash = {}
-  funds.zip(balances){|fund,balance| hash[fund.strip] = balance}
+  file.funds.zip(file.balances){|fund,balance| hash[fund] = balance}
   hash
 end
 
