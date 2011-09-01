@@ -14,8 +14,8 @@ class DataFileTest < MiniTest::Unit::TestCase
     file = DataFile.new
     file.parse_balances("$231.79 $246.12 $38.32 $517.14 $655.41 $651.67 $201.69 $597.55 $615.29 $3,754.98\n")
 
-    assert(file.balances.include? "$231.79")
-    assert(file.balances.include? "$3,754.98")
+    assert(file.balances.include? 231.79)
+    assert(file.balances.include? 3754.98)
   end
 
   def test_parse_date

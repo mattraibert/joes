@@ -1,4 +1,5 @@
 require 'date'
+require 'bigdecimal'
 
 class DataFile
   attr_reader :balances, :funds, :date
@@ -14,7 +15,7 @@ class DataFile
   end
 
   def parse_balances balances_line
-    @balances = balances_line.split(" ")
+    @balances = balances_line.split(" ").map{|dstring| dstring.gsub(/\$|,/,"").to_f }
   end
 
   def parse_date filename
