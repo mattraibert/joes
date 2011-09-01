@@ -18,39 +18,20 @@ class Array
   end
 end
 
-files = {}
+data = {}
 
 Dir.glob("*-*-*.txt").each do |filename|
-  file = []
+  interesting = DataFile.new
   File.open(filename, "r") do |infile|
     while (line = infile.gets)
-      file << line
+      if(/Ending Balance/ === line)
+        interesting.set_balances infile.gets
+        infile.gets
+        interesting.set_funds infile.gets
+      end
     end
   end
-  files[Date.parse(filename.sub(".txt",""))] = file
-end
-
-data = files.hashmap do |date, file|
-  cnt = 0
-
-  interesting = DataFile.new
-  file.each do |line|
-    if(/Ending Balance/ === line)
-      cnt = 1
-    end
-    if(cnt == 2)
-      interesting.set_balances line
-    end
-    if(cnt == 4)
-      puts line
-      interesting.set_funds line
-    end
-    if cnt > 0
-      cnt += 1
-      cnt %= 5
-    end
-  end
-  interesting
+  data[Date.parse(filename.sub(".txt",""))] = interesting
 end
 
 data = data.hashmap do |date, file|
