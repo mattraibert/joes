@@ -10,6 +10,14 @@ class Hash
   end
 end
 
+class Array
+  def ziphash(values)
+    hash = {}
+    self.zip(values){|k,v| hash[k] = v}
+    hash
+  end
+end
+
 files = {}
 
 Dir.glob("*-*-*.txt").each do |filename|
@@ -23,34 +31,26 @@ Dir.glob("*-*-*.txt").each do |filename|
 end
 
 data = files.hashmap do |date, file|
-  bal = 0
+  cnt = 0
 
   interesting = DataFile.new
   file.each do |line|
     if(/Ending Balance/ === line)
-      bal = 1
+      cnt = 1
     end
-    if(bal == 2)
+    if(cnt == 2)
       interesting.set_balances line
     end
-    if(bal == 4)
+    if(cnt == 4)
       puts line
       interesting.set_funds line
     end
-    if bal > 0
-      bal += 1
-      bal %= 5
+    if cnt > 0
+      cnt += 1
+      cnt %= 5
     end
   end
   interesting
-end
-
-class Array
-  def ziphash(values)
-    hash = {}
-    self.zip(values){|k,v| hash[k] = v}
-    hash
-  end
 end
 
 data = data.hashmap do |date, file|
