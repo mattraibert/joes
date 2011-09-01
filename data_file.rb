@@ -1,7 +1,7 @@
 require 'date'
 
 class DataFile
-  attr_reader :balances, :funds
+  attr_reader :balances, :funds, :date
   
   def set_funds funds_line
     funds_line.strip
@@ -15,5 +15,9 @@ class DataFile
 
   def set_balances balances_line
     @balances = balances_line.split(" ")
+  end
+
+  def set_date filename
+    @date = Date.parse(filename.sub(".txt",""))
   end
 end

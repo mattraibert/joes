@@ -17,4 +17,11 @@ class StatementTest < MiniTest::Unit::TestCase
     assert(file.balances.include? "$231.79")
     assert(file.balances.include? "$3,754.98")
   end
+
+  def test_set_date
+    file = DataFile.new
+    file.set_date("2000-06-01.txt")
+
+    assert_equal(Date.new(2000, 6, 1), file.date)
+  end
 end

@@ -18,9 +18,7 @@ class Array
   end
 end
 
-data = {}
-
-Dir.glob("*-*-*.txt").each do |filename|
+data = Dir.glob("*-*-*.txt").map do |filename|
   interesting = DataFile.new
   File.open(filename, "r") do |infile|
     while (line = infile.gets)
@@ -28,29 +26,19 @@ Dir.glob("*-*-*.txt").each do |filename|
         interesting.set_balances infile.gets
         infile.gets
         interesting.set_funds infile.gets
+        interesting.set_date filename
       end
     end
   end
-  data[Date.parse(filename.sub(".txt",""))] = interesting
-end
-
-data = data.hashmap do |date, file|
-  hash = {}
-  file.funds.zip(file.balances){|fund,balance| hash[fund] = balance}
-  hash
+  interesting
 end
 
 fund_data = {}
 
-data.each do |d|
-  date = d[0]
-  balances = d[1]
-
-  balances.each do |b|
-    fund = b[0]
-    balance = b[1]
+data.each do |file|
+  file.funds.zip(file.balances) do |fund,balance| 
     fund_data[fund] ||= {}
-    fund_data[fund][date.strftime("%-m/%-d/%Y")] = balance
+    fund_data[fund][file.date.strftime("%-m/%-d/%Y")] = balance
   end
 end
 
