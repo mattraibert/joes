@@ -1,23 +1,6 @@
 require 'date'
 require 'data_file'
 
-class Hash
-  def hashmap
-    self.inject({}) do |newhash, (k,v)|
-      newhash[k] = yield(k, v)
-      newhash
-    end
-  end
-end
-
-class Array
-  def ziphash(values)
-    hash = {}
-    self.zip(values){|k,v| hash[k] = v}
-    hash
-  end
-end
-
 data = Dir.glob("*-*-*.txt").map do |filename|
   interesting = DataFile.new
   File.open(filename, "r") do |infile|
