@@ -6,10 +6,10 @@ data = Dir.glob("*-*-*.txt").map do |filename|
   File.open(filename, "r") do |infile|
     while (line = infile.gets)
       if(/Ending Balance/ === line)
-        interesting.set_balances infile.gets
+        interesting.parse_date filename
+        interesting.parse_balances infile.gets
         infile.gets
-        interesting.set_funds infile.gets
-        interesting.set_date filename
+        interesting.parse_funds infile.gets
       end
     end
   end
@@ -19,9 +19,9 @@ end
 fund_data = {}
 
 data.each do |file|
-  file.funds.zip(file.balances) do |fund,balance| 
+  file.funds.zip(file.balances) do |fund, balance| 
     fund_data[fund] ||= {}
-    fund_data[fund][file.date.strftime("%-m/%-d/%Y")] = balance
+    fund_data[fund][file.date] = balance
   end
 end
 
