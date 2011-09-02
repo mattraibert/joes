@@ -1,4 +1,6 @@
 class Fund
+  attr_reader :name
+
   def initialize(name)
     @name = name
   end
@@ -45,7 +47,6 @@ class Fund
   </head>
 
   <body>
-    // Note how you must specify the size of the container element explicitly!
     <div id='chart_div' style='width: 700px; height: 240px;'></div>
   </body>
 </html>
