@@ -48,6 +48,7 @@ class Fund
 
   <body>
     <div id='chart_div' style='width: 700px; height: 240px;'></div>
+    <a href='/'>List</a>
   </body>
 </html>
 """
