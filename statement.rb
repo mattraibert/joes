@@ -27,7 +27,9 @@ data.each do |file|
 end
 
 fund_data.each do |f|
-  puts f[1]
+  File.open("#{f[0]}.html", "w") do |outfile|
+    outfile.puts f[1].gvis
+  end
 end
 
 
