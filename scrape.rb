@@ -6,8 +6,9 @@ require 'active_support/core_ext'
 a = Mechanize.new
 page = a.get("https://www.pai.com/employee/default.aspx")
 user_date = Date.parse(ask("401k start date"))
-user_months = ask("How many months?").to_i - 1
-months = (0..user_months).map { |month| user_date + month.months }
+user_granularity = ask("What granularity? (days, weeks, months, years)")
+how_many_data_points = ask("How many #{user_granularity}?").to_i - 1
+dates = (0..how_many_data_points).map { |count| user_date + count.send(user_granularity) }
 
 page = page.form do |f| 
   f.txtUserName = ask("Enter Username")
@@ -17,7 +18,7 @@ end.click_button
 page = a.click(page.link_with(:text => /My 401k/))
 page = a.click(page.link_with(:text => /Statements/))
 
-months.each do |date|
+dates.each do |date|
   file_name = "#{date}.pdf"
 
   stmt = page.form do |f|
