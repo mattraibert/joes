@@ -2,8 +2,8 @@ require 'date'
 require 'data_file'
 require 'fund'
 
-class RawData
-  def initialize
+class RawDataFactory
+  def read_data_from_files
     #todo allow user to specify source file directory
     @data = Dir.glob("*-*-*.txt").map do |filename|
       interesting = DataFile.new
@@ -28,6 +28,14 @@ class RawData
         @fund_data[fund].write(file.date, balance)
       end
     end
+
+    RawData.new @fund_data
+  end
+end
+
+class RawData
+  def initialize fund_data
+    @fund_data = fund_data
   end
 
   def fund(name)
@@ -36,5 +44,13 @@ class RawData
 
   def fund_names
     @fund_data.keys
+  end
+
+  def csv
+    csv = [(["Date"] + fund_names).join(', ')]
+    csv += fund("TOTAL").dates.map do |date|
+      ([date] + fund_names.map {|name| fund(name).balance_for(date) }).join(', ')
+    end
+    csv.join("\n")
   end
 end

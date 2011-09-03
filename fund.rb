@@ -20,6 +20,10 @@ class Fund
     end.join(", ")
   end
 
+  def dates
+    @balances.keys
+  end
+
   def gvis
     """
 <html>

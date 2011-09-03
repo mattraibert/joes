@@ -1,13 +1,17 @@
 require 'sinatra'
 require 'raw_data'
 
-
 get '/' do
-  @data ||= RawData.new
+  @data ||= RawDataFactory.new.read_data_from_files
   @data.fund_names.map {|name| "<a href='/#{name}'>#{name}</a>"}.join("<\p>")
 end
 
+get '/csv' do
+  @data ||= RawDataFactory.new.read_data_from_files
+  @data.csv
+end
+
 get '/:fund' do
-  @data ||= RawData.new
+  @data ||= RawDataFactory.new.read_data_from_files
   @data.fund(params[:fund]).gvis
 end
