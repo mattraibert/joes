@@ -23,7 +23,7 @@ dates.each do |date|
 
   stmt = page.form do |f|
     f.radiobutton_with(:value => /rdoManual/).check
-    f.field("_ctl23:_ctl1:txtFrom").value = (date - 1.month).strftime("%-m/%-d/%Y")
+    f.field("_ctl23:_ctl1:txtFrom").value = (date - 1.send(user_granularity)).strftime("%-m/%-d/%Y")
     f.field("_ctl23:_ctl1:txtTo").value = date.strftime("%-m/%-d/%Y")
   end.click_button.save_as(file_name)
 
