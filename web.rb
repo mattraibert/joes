@@ -7,6 +7,7 @@ get '/' do
 end
 
 get '/csv' do
+  content_type "application/octet-stream"
   @data ||= RawDataFactory.new.read_data_from_files
   @data.csv
 end
