@@ -14,10 +14,6 @@ class Fund
     @balances[date]
   end
 
-  def to_s
-    "#{@name} has data #{@balances}"
-  end
-
   def rows
     @balances.map do |date, balance|
       "[new Date(#{date.year}, #{date.month - 1}, #{date.day}), #{balance}, undefined, undefined]"
