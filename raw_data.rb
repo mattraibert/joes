@@ -15,6 +15,11 @@ class RawDataFactory
             infile.gets
             interesting.parse_funds infile.gets
           end
+          if(/Investment Option Beginning Contributions/ === line)
+            interesting.parse_contributions infile.gets
+          end
+          if(/Units/ === line)
+          end
         end
       end
       interesting

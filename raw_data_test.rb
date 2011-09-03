@@ -7,7 +7,7 @@ class RawDataTest < MiniTest::Unit::TestCase
   def test_csv
     expected_csv = ["Date, iShares Raibert Fund, ANOTHER Fund, TOTAL",
      "2008-01-01, 50000, 40000, 90000",
-     "2008-01-02, 50001, 40001, 90002"].join('\n')
+     "2008-01-02, 50001, 40001, 90002"].join("\n")
     
     irf = Fund.new("iShares Raibert Fund")
     irf.write(Date.parse("2008-01-01"), 50000)

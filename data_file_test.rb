@@ -24,4 +24,14 @@ class DataFileTest < MiniTest::Unit::TestCase
 
     assert_equal(Date.new(2000, 6, 1), file.date)
   end
+
+  def test_parse_contributions
+    file = DataFile.new
+    file.parse_funds("SPDR DJIA Trust iShares Dow Jones Select Dividend Index Fund iShares Russell 2000 Index Fund iShares Barclays 7-10 Year Treasury Bond Fund iShares Barclays Aggregate Bond Fund iShares Barclays TIPS Bond Fund iShares Cohen & Steers Realty Majors Index Fund iShares MSCI Emerging Markets Index Fund iShares MSCI EAFE Index Fund")
+    file.parse_contributions("$67.01 $59.10 $52.08 $341.08 $462.42 $719.60 $144.97 $280.61 $354.63 $2,481.50 $16.15 $16.15 $0.00 $12.92 $16.15 $0.00 $11.31 $48.47 $40.39 $161.54 $0.00 $0.00 $0.00 $0.00 $0.00 $0.00 $0.00 $0.00 $0.00 $0.00")
+
+    assert(file.contributions.include? 161.54)
+    assert(file.contributions.include? 16.15)
+    assert(!file.contributions.include?(2481.5))
+  end
 end

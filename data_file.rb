@@ -1,8 +1,12 @@
 require 'date'
 require 'bigdecimal'
 
+def money_string_to_float money_string
+  money_string.gsub(/\$|,/,"").to_f
+end
+
 class DataFile
-  attr_reader :balances, :funds, :date
+  attr_reader :balances, :funds, :date, :contributions
   
   def parse_funds funds_line
     funds_line.strip
@@ -15,10 +19,17 @@ class DataFile
   end
 
   def parse_balances balances_line
-    @balances = balances_line.split(" ").map{|dstring| dstring.gsub(/\$|,/,"").to_f }
+    @balances = balances_line.split(" ").map{|dstring| money_string_to_float(dstring) }
   end
 
   def parse_date filename
     @date = Date.parse(filename.sub(".txt",""))
+  end
+
+  def parse_contributions contributions_line
+    first = @funds.size
+    last = first + funds.size - 1
+    @contributions = contributions_line.split(" ")[first..last]
+    @contributions = @contributions.map{|dstring| money_string_to_float(dstring) }
   end
 end
