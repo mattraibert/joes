@@ -7,7 +7,7 @@ class FundTest < MiniTest::Unit::TestCase
   def test_interface
     date = Date.parse("2000-03-01")
 
-    fund = Fund.new
+    fund = Fund.new("My Fund")
     fund.write(date, 500)
     fund.write(date + 1.month , 600)
     

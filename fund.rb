@@ -20,7 +20,7 @@ class Fund
 
   def rows
     @balances.map do |date, balance|
-      "[new Date(#{date.strftime("%Y, %-m, %e")}), #{balance}, 'hi','dan']"
+      "[new Date(#{date.year}, #{date.month - 1}, #{date.day}), #{balance}, undefined, undefined]"
     end.join(", ")
   end
 
