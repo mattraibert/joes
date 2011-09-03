@@ -1,0 +1,33 @@
+This is a little helper for getting info about your 401k from the PAi website.
+
+To get set up issue these commands:
+
+$ rvm install ruby-head
+$ rvm gemset create pai
+$ gem install bundler
+$ bundle install
+
+To download some statements use:
+
+$ ruby -I. scrape.rb 
+401k start date
+2010-1-1 <You can enter your start date as yyyy-MM-dd or MM/dd/yyyy>
+What granularity? (days, weeks, months, years)
+days <I recommend days>
+How many days?
+31 <the higher the number, the longer the download takes>
+Enter Username
+<your username>
+Enter Password
+<your password (won't echo)>
+finished 2010-01-01
+....
+finished 2010-01-31
+
+$ ruby -I. web.rb
+== Sinatra/1.2.6 has taken the stage on 4567 for development with backup from WEBrick
+[2011-09-03 10:32:59] INFO  WEBrick 1.3.1
+[2011-09-03 10:32:59] INFO  ruby 1.9.4 (2011-08-22) [x86_64-darwin11.0.0]
+[2011-09-03 10:32:59] INFO  WEBrick::HTTPServer#start: pid=77122 port=4567
+
+Now you can browse to 'http://localhost:4567/' or 'http://localhost:4567/csv' or 'http://localhost:4567/TOTAL'
