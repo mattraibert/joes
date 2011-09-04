@@ -1,32 +1,33 @@
 require 'date'
 require 'interesting_statement_lines'
 require 'fund'
+require 'util'
 
 class RawDataFactory
+  def find_interesting_statement_lines filename
+    interesting = InterestingStatementLines.new
+    stmt = IO.read(filename).split("\n")
+    stmt.items_following(/Ending Balance/) do |lines|
+      interesting.parse_balances lines[0]
+      interesting.parse_funds lines[2]
+    end
+    stmt.items_following(/Investment Option Beginning Contributions/) do |lines|
+      interesting.parse_contributions lines[0]
+    end
+    stmt.items_following(/Investment Option$/) do |lines|
+      interesting.parse_units_funds lines[0]
+    end
+    stmt.items_following(/Units/) do |lines|
+      interesting.parse_units lines[0]
+    end
+    interesting
+  end
+
+
   def read_data_from_files
     #todo allow user to specify source file directory
     @data = Dir.glob("*-*-*.txt").map do |filename|
-      interesting = InterestingStatementLines.new
-      File.open(filename, "r") do |infile|
-        interesting.parse_date filename
-        while (line = infile.gets)
-          if(/Ending Balance/ === line)
-            interesting.parse_balances infile.gets
-            infile.gets
-            interesting.parse_funds infile.gets
-          end
-          if(/Investment Option Beginning Contributions/ === line)
-            interesting.parse_contributions infile.gets
-          end
-          if(/Investment Option$/ === line)
-            interesting.parse_units_funds infile.gets
-          end
-          if(/Units/ === line)
-            interesting.parse_units infile.gets
-          end
-        end
-      end
-      interesting
+      find_interesting_statement_lines filename
     end
 
     @fund_data = {}
