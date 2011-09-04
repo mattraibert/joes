@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'raw_data'
+require 'investments'
 
 get '/' do
   @data ||= RawDataFactory.new.read_data_from_files

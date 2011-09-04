@@ -6,6 +6,7 @@ require 'util'
 class RawDataFactory
   def find_interesting_statement_lines filename
     interesting = InterestingStatementLines.new
+    interesting.parse_date filename
     stmt = IO.read(filename).split("\n")
     stmt.items_following(/Ending Balance/) do |lines|
       interesting.parse_balances lines[0]
@@ -43,11 +44,11 @@ class RawDataFactory
       end
     end
 
-    RawData.new @fund_data
+    Investments.new @fund_data
   end
 end
 
-class RawData
+class Investments
   def initialize fund_data
     @fund_data = fund_data
   end

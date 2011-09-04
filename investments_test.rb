@@ -1,9 +1,9 @@
 require 'minitest/autorun'
-require 'raw_data'
+require 'investments'
 require 'date'
 require 'active_support/core_ext'
 
-class RawDataTest < MiniTest::Unit::TestCase
+class InvestmentsTest < MiniTest::Unit::TestCase
   def test_csv
     expected_csv = ["Date, iShares Raibert Fund, ANOTHER Fund, TOTAL",
      "2008-01-01, 50000, 40000, 90000",
@@ -21,7 +21,7 @@ class RawDataTest < MiniTest::Unit::TestCase
     total.write_balance(Date.parse("2008-01-01"), 90000)
     total.write_balance(Date.parse("2008-01-02"), 90002)
 
-    rd = RawData.new({
+    rd = Investments.new({
       "iShares Raibert Fund" => irf, 
       "ANOTHER Fund" => af,
       "TOTAL" => total
