@@ -1,12 +1,12 @@
 require 'date'
-require 'data_file'
+require 'interesting_statement_lines'
 require 'fund'
 
 class RawDataFactory
   def read_data_from_files
     #todo allow user to specify source file directory
     @data = Dir.glob("*-*-*.txt").map do |filename|
-      interesting = DataFile.new
+      interesting = InterestingStatementLines.new
       File.open(filename, "r") do |infile|
         interesting.parse_date filename
         while (line = infile.gets)

@@ -5,7 +5,7 @@ def convert_money_line money_line
   money_line.split(" ").map {|money_string| money_string.gsub(/\$|,/,"").to_f }
 end
 
-class DataFile
+class InterestingStatementLines
   attr_reader :balances, :funds, :date, :contributions, :units, :units_funds
 
   def parse_funds funds_line
