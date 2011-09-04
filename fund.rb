@@ -5,13 +5,22 @@ class Fund
     @name = name
   end
 
-  def write(date, balance)
+  def write_balance(date, balance)
     @balances ||= {}
     @balances[date] = balance
   end
 
   def balance_for(date)
     @balances[date]
+  end
+
+  def write_contribution(date, contribution)
+    @contributions ||= {}
+    @contributions[date] = contribution
+  end
+
+  def contribution_for(date)
+    @contributions[date]
   end
 
   def rows

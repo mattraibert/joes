@@ -30,7 +30,7 @@ class RawDataFactory
     @data.each do |file|
       file.funds.zip(file.balances) do |fund, balance| 
         @fund_data[fund] ||= Fund.new fund
-        @fund_data[fund].write(file.date, balance)
+        @fund_data[fund].write_balance(file.date, balance)
       end
     end
 

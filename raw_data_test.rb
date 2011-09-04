@@ -10,16 +10,16 @@ class RawDataTest < MiniTest::Unit::TestCase
      "2008-01-02, 50001, 40001, 90002"].join("\n")
     
     irf = Fund.new("iShares Raibert Fund")
-    irf.write(Date.parse("2008-01-01"), 50000)
-    irf.write(Date.parse("2008-01-02"), 50001)
+    irf.write_balance(Date.parse("2008-01-01"), 50000)
+    irf.write_balance(Date.parse("2008-01-02"), 50001)
 
     af = Fund.new("ANOTHER Fund")
-    af.write(Date.parse("2008-01-01"), 40000)
-    af.write(Date.parse("2008-01-02"), 40001)
+    af.write_balance(Date.parse("2008-01-01"), 40000)
+    af.write_balance(Date.parse("2008-01-02"), 40001)
 
     total = Fund.new("TOTAL")
-    total.write(Date.parse("2008-01-01"), 90000)
-    total.write(Date.parse("2008-01-02"), 90002)
+    total.write_balance(Date.parse("2008-01-01"), 90000)
+    total.write_balance(Date.parse("2008-01-02"), 90002)
 
     rd = RawData.new({
       "iShares Raibert Fund" => irf, 
