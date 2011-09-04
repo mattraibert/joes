@@ -3,11 +3,9 @@ require 'interesting_statement_lines'
 require 'fund'
 require 'util'
 
-class RawDataFactory
-  def find_interesting_statement_lines filename
-    interesting = InterestingStatementLines.new
+class InterestingStatementFactory
+  def build_interesting_statement filename, stmt
     interesting.parse_date filename
-    stmt = IO.read(filename).split("\n")
     stmt.items_following(/Ending Balance/) do |lines|
       interesting.parse_balances lines[0]
       interesting.parse_funds lines[2]
@@ -24,11 +22,11 @@ class RawDataFactory
     interesting
   end
 
-
   def read_data_from_files
     #todo allow user to specify source file directory
     @data = Dir.glob("*-*-*.txt").map do |filename|
-      find_interesting_statement_lines filename
+      interesting = InterestingStatementLines.new
+      build_interesting_statement filename, IO.read(filename).split("\n")
     end
 
     @fund_data = {}
