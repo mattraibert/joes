@@ -8,9 +8,9 @@ class RawDataFactory
     @data = Dir.glob("*-*-*.txt").map do |filename|
       interesting = DataFile.new
       File.open(filename, "r") do |infile|
+        interesting.parse_date filename
         while (line = infile.gets)
           if(/Ending Balance/ === line)
-            interesting.parse_date filename
             interesting.parse_balances infile.gets
             infile.gets
             interesting.parse_funds infile.gets
@@ -18,7 +18,11 @@ class RawDataFactory
           if(/Investment Option Beginning Contributions/ === line)
             interesting.parse_contributions infile.gets
           end
+          if(/Investment Option$/ === line)
+            interesting.parse_units_funds infile.gets
+          end
           if(/Units/ === line)
+            interesting.parse_units infile.gets
           end
         end
       end
@@ -31,6 +35,10 @@ class RawDataFactory
       file.funds.zip(file.balances) do |fund, balance| 
         @fund_data[fund] ||= Fund.new fund
         @fund_data[fund].write_balance(file.date, balance)
+      end
+      file.funds.zip(file.contributions) do |fund, contribution| 
+        @fund_data[fund] ||= Fund.new fund
+        @fund_data[fund].write_contribution(file.date, contribution)
       end
     end
 
