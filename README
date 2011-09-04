@@ -1,6 +1,6 @@
 This is a little helper for getting info about your 401k from the PAi website.
 
-To get set up issue these commands:
+To get set up, issue these commands:
 
 $ rvm install ruby-head
 $ rvm gemset create pai
