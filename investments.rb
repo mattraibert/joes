@@ -5,6 +5,7 @@ require 'util'
 
 class InterestingStatementFactory
   def build_interesting_statement filename, stmt
+    interesting = InterestingStatementLines.new
     interesting.parse_date filename
     stmt.items_following(/Ending Balance/) do |lines|
       interesting.parse_balances lines[0]
@@ -25,7 +26,6 @@ class InterestingStatementFactory
   def read_data_from_files
     #todo allow user to specify source file directory
     @data = Dir.glob("*-*-*.txt").map do |filename|
-      interesting = InterestingStatementLines.new
       build_interesting_statement filename, IO.read(filename).split("\n")
     end
 
