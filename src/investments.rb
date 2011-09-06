@@ -23,26 +23,28 @@ class InterestingStatementFactory
     interesting
   end
 
-  def read_data_from_files
-    #todo allow user to specify source file directory
-    @data = Dir.glob("*-*-*.txt").map do |filename|
-      build_interesting_statement filename, IO.read(filename).split("\n")
-    end
-
-    @fund_data = {}
-
-    @data.each do |file|
+  def build_investments interesting_statements
+    fund_data = {}
+    interesting_statements.each do |file|
       file.funds.zip(file.balances) do |fund, balance| 
-        @fund_data[fund] ||= Fund.new fund
-        @fund_data[fund].write_balance(file.date, balance)
+        fund_data[fund] ||= Fund.new fund
+        fund_data[fund].write_balance(file.date, balance)
       end
       file.funds.zip(file.contributions) do |fund, contribution| 
-        @fund_data[fund] ||= Fund.new fund
-        @fund_data[fund].write_contribution(file.date, contribution)
+        fund_data[fund] ||= Fund.new fund
+        fund_data[fund].write_contribution(file.date, contribution)
       end
     end
 
-    Investments.new @fund_data
+    Investments.new fund_data
+  end
+
+  def read_data_from_files
+    #todo allow user to specify source file directory
+    data = Dir.glob("*-*-*.txt").map do |filename|
+      build_interesting_statement filename, IO.read(filename).split("\n")
+    end
+    build_investments data
   end
 end
 
