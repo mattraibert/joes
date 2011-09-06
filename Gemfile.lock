@@ -3,7 +3,7 @@ GEM
   specs:
     activesupport (3.1.0)
       multi_json (~> 1.0)
-    grasshopper (0.0.1)
+    grasshopper (0.1.0)
     highline (1.6.2)
     i18n (0.6.0)
     mechanize (2.0.1)
@@ -30,7 +30,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport (>= 3.1.0)
   bundler (~> 1.0.0)
-  grasshopper (>= 0.0.1)
+  grasshopper (>= 0.1.0)
   highline (>= 1.6.2)
   i18n (>= 0.0.4)
   mechanize (>= 2.0.1)

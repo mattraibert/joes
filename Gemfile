@@ -9,5 +9,5 @@ gem 'i18n', '>= 0.0.4'
 group :development do
   gem 'minitest', '>= 0'
   gem 'bundler', '~> 1.0.0'
-  gem 'grasshopper', '>= 0.0.1'
+  gem 'grasshopper', '>= 0.1.0'
 end
