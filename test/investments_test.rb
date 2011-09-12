@@ -8,7 +8,7 @@ class InvestmentsTest < MiniTest::Unit::TestCase
     expected_csv = ["Date, iShares Raibert Fund, ANOTHER Fund, TOTAL",
      "2008-01-01, 50000, 40000, 90000",
      "2008-01-02, 50001, 40001, 90002"].join("\n")
-    
+
     irf = Fund.new("iShares Raibert Fund")
     irf.write_balance(Date.parse("2008-01-01"), 50000)
     irf.write_balance(Date.parse("2008-01-02"), 50001)
@@ -22,7 +22,7 @@ class InvestmentsTest < MiniTest::Unit::TestCase
     total.write_balance(Date.parse("2008-01-02"), 90002)
 
     rd = Investments.new({
-      "iShares Raibert Fund" => irf, 
+      "iShares Raibert Fund" => irf,
       "ANOTHER Fund" => af,
       "TOTAL" => total
     })
