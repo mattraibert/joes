@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'investments'
+require 'interesting_statement_factory'
 
 get '/' do
   @data ||= InterestingStatementFactory.new.read_data_from_files

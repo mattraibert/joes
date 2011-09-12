@@ -2,6 +2,7 @@ require 'date'
 require 'interesting_statement_lines'
 require 'fund'
 require 'util'
+require 'investments'
 
 class InterestingStatementFactory
   def build_interesting_statement interesting, filename, stmt
