@@ -42,8 +42,8 @@ class InterestingStatementFactory
   def read_data_from_files
     #todo allow user to specify source file directory
     data = Dir.glob("*-*-*.txt").map do |filename|
-      interesting = InterestingStatementLines.new
       file_lines = IO.read(filename).split("\n")
+      interesting = InterestingStatementLines.new
       build_interesting_statement(interesting, filename, file_lines)
     end
     build_investments data
