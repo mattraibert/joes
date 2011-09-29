@@ -1,15 +1,13 @@
 require 'util'
 
 class Investments
-  def initialize fund_data
-    @fund_data = fund_data
+  def fund(fund_name)
+    @fund_data ||= {}
+    @fund_data[fund_name] ||= Fund.new fund_name
   end
-
-  def fund(name)
-    @fund_data[name]
-  end
-
+  
   def fund_names
+    @fund_data ||= {}
     @fund_data.keys
   end
 

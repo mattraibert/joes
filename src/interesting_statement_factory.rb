@@ -23,20 +23,25 @@ class InterestingStatementFactory
     interesting
   end
 
-  def build_investments interesting_statements
-    fund_data = {}
-    interesting_statements.each do |file|
-      file.funds.zip(file.balances) do |fund, balance|
-        fund_data[fund] ||= Fund.new fund
-        fund_data[fund].write_balance(file.date, balance)
-      end
-      file.funds.zip(file.contributions) do |fund, contribution|
-        fund_data[fund] ||= Fund.new fund
-        fund_data[fund].write_contribution(file.date, contribution)
-      end
+  def extract_balances file, fund_data
+    file.funds.zip(file.balances) do |fund_name, balance|
+      fund_data.fund(fund_name).write_balance(file.date, balance)
     end
+  end
 
-    Investments.new fund_data
+  def extract_contributions file, fund_data
+    file.funds.zip(file.contributions) do |fund_name, contribution|
+      fund_data.fund(fund_name).write_contribution(file.date, contribution)
+    end
+  end
+
+  def build_investments interesting_statements
+    fund_data = Investments.new
+    interesting_statements.each do |file|
+      extract_balances file, fund_data
+      extract_contributions file, fund_data
+    end
+    fund_data
   end
 
   def read_data_from_files
