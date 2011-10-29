@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'interesting_statement_lines'
 
-class DataFileTest < MiniTest::Unit::TestCase
+class InterestingStatementLinesTest < MiniTest::Unit::TestCase
   def test_parse_funds
     file = InterestingStatementLines.new
     file.parse_funds("SPDR DJIA Trust iShares Dow Jones Select Dividend Index Fund iShares Russell 2000 Index Fund iShares Barclays 7-10 Year Treasury Bond Fund iShares Barclays Aggregate Bond Fund iShares Barclays TIPS Bond Fund iShares Cohen & Steers Realty Majors Index Fund iShares MSCI Emerging Markets Index Fund iShares MSCI EAFE Index Fund\n")
@@ -44,7 +44,6 @@ class DataFileTest < MiniTest::Unit::TestCase
   end
 
   def test_parse_units_funds
-
     file = InterestingStatementLines.new
     file.parse_units_funds("1 iShares Barclays 7-10 Year Treasury Bond Fund 2 iShares Barclays Aggregate Bond Fund 3 iShares Barclays TIPS Bond Fund 4 iShares Cohen & Steers Realty Majors Index Fund 5 iShares Dow Jones Select Dividend Index Fund 6 iShares MSCI EAFE Index Fund 7 iShares MSCI Emerging Markets Index Fund 8 iShares Russell 2000 Index Fund 9 SPDR DJIA Trust SPDR S&P 500 ETF Trust iShares Russell 1000 Growth Index Fund NASDAQ 100 Trust Shares iShares Russell 1000 Value Index Fund SPDR S&P MidCap 400 ETF Trust iShares Barclays 1-3 Year Treasury Bond Fund")
 

@@ -23,6 +23,15 @@ class Fund
     @contributions[date]
   end
 
+  def write_units(date, units)
+    @units ||= {}
+    @units[date] = units
+  end
+
+  def units_for(date)
+    @units[date]
+  end
+
   def rows
     @balances.map do |date, balance|
       "[new Date(#{date.year}, #{date.month - 1}, #{date.day}), #{balance}, undefined, undefined]"

@@ -21,9 +21,7 @@ class InterestingStatementFactoryTest < MiniTest::Unit::TestCase
       "trailing garbage"]
 
     factory = InterestingStatementFactory.new
-    interesting = Mock.new
-
-    factory.build_interesting_statement(interesting, "date.txt", statement)
+    interesting = factory.read_file("date.txt", statement, Mock.new)
 
     Mock.verify(interesting).parse_date("date.txt")
     Mock.verify(interesting).parse_balances("balance")
@@ -42,6 +40,25 @@ class InterestingStatementFactoryTest < MiniTest::Unit::TestCase
 
     assert_equal(fund_names, investments.fund_names)
     assert_equal([Date.new(2011, 2, 1),Date.new(2011, 2, 2)], investments.fund("TOTAL").dates)
+  end
+
+  def test_build_units
+    date = Date.new(2011, 2, 2)
+    stmt_stub1 = UnitStatementStub.new(["fund1", "fund2", "matts fund"], [4.336, 2.9, 0.00], date)
+
+    investments = InterestingStatementFactory.new.build_units [stmt_stub1]
+
+    assert_equal(4.336, investments.fund("fund1").units_for(date))
+  end
+end
+
+class UnitStatementStub
+  attr_reader :units_funds, :units, :date
+
+  def initialize units_funds, units, date
+    @units_funds = units_funds
+    @units = units
+    @date = date
   end
 end
 
