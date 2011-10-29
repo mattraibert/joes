@@ -35,23 +35,10 @@ class InterestingStatementFactory
     end
   end
 
-  def build_investments interesting_statements
-    fund_data = Investments.new
-    interesting_statements.each do |file|
-      extract_balances file, fund_data
-      extract_contributions file, fund_data
+  def extract_units file, fund_data
+    file.units_funds.zip(file.units).each do |fund_name, units|
+      fund_data.fund(fund_name).write_units(file.date, units)
     end
-    fund_data
-  end
-
-  def build_units statements
-    fund_data = Investments.new
-    statements.each do |file|
-      file.units_funds.zip(file.units).each do |fund_name, units|
-        fund_data.fund(fund_name).write_units(file.date, units)
-      end
-    end
-    fund_data
   end
 
   def read_statements
@@ -60,6 +47,16 @@ class InterestingStatementFactory
       file_lines = IO.read(filename).split("\n")
       read_file(filename, file_lines)
     end
+  end
+
+  def build_investments interesting_statements
+    fund_data = Investments.new
+    interesting_statements.each do |file|
+      extract_balances file, fund_data
+      extract_contributions file, fund_data
+      extract_units file, fund_data
+    end
+    fund_data
   end
 
   def read_data_from_files
