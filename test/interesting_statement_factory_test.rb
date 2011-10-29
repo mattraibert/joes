@@ -45,8 +45,9 @@ class InterestingStatementFactoryTest < MiniTest::Unit::TestCase
   def test_build_units
     date = Date.new(2011, 2, 2)
     stmt_stub1 = StatementStub.new([], [], [], ["fund1", "fund2", "matts fund"], [4.336, 2.9, 0.00], date)
+    stmt_stub2 = StatementStub.new([], [], [], ["fund1", "fund2", "matts fund"], [4.9, 3.1, 0.00], date + 1.month)
 
-    investments = InterestingStatementFactory.new.build_investments [stmt_stub1]
+    investments = InterestingStatementFactory.new.build_investments [stmt_stub1, stmt_stub2]
 
     assert_equal(4.336, investments.fund("fund1").units_for(date))
   end
