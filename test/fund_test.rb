@@ -33,8 +33,20 @@ class FundTest < MiniTest::Unit::TestCase
   def test_delta_units
     @fund.write_units(@date, 4.3)
     @fund.write_units(@date + 1.month, 4.5)
+    @fund.write_units(@date + 1.month + 1.day, 4.9)
 
     assert_equal(Units.new(4.3), @fund.delta_units_for(@date))
     assert_equal(Units.new(0.2), @fund.delta_units_for(@date + 1.month))
+    assert_equal(Units.new(0.4), @fund.delta_units_for(@date + 1.month + 1.day))
+  end
+
+  def test_find_units_backwards
+    @fund.write_units(@date, 4.1)
+    @fund.write_units(@date + 1.day, 4.3)
+
+    assert_equal(Units.zero, @fund.find_units_backwards(@date))
+    assert_equal(Units.new(4.1), @fund.find_units_backwards(@date + 1.day))
+    assert_equal(Units.new(4.3), @fund.find_units_backwards(@date + 2.days))
+    assert_equal(Units.new(4.3), @fund.find_units_backwards(@date + 1.month))
   end
 end

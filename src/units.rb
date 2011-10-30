@@ -5,6 +5,10 @@ class Units
     @value = (value * 1000).to_i
   end
 
+  def self.zero
+    @zero ||= Units.new(0)
+  end
+
   def + addend
     Units.new((value + addend.value) / 1000.0)
   end

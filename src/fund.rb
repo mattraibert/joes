@@ -29,12 +29,15 @@ class Fund
   end
 
   def units_for(date)
-    @units[date]
+    @units[date] || Units.zero
+  end
+
+  def find_units_backwards(date)
+    units_for(@units.keys.select { |key| key < date }.last)
   end
 
   def delta_units_for(date)
-    previous_value = units_for(date - 1.month) || Units.new(0)
-    units_for(date) - previous_value
+    units_for(date) - find_units_backwards(date)
   end
 
   def rows
