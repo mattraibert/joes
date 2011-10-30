@@ -33,7 +33,7 @@ class Fund
   end
 
   def find_units_backwards(date)
-    units_for(@units.keys.select { |key| key < date }.last)
+    @units[date - 1.day] || units_for(@units.keys.select { |key| key < date }.last)
   end
 
   def delta_units_for(date)
