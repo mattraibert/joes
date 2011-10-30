@@ -42,6 +42,14 @@ class Fund
     @balances.keys
   end
 
+  def row_for(date)
+    "#{name}, ,Buy, #{date}, #{units_for(date)}, #{contribution_for(date)}, #{balance_for(date)}"
+  end
+
+  def to_s
+    "Name, Symbol, Type, Date, Shares, Price, Balance<br>" + dates.map { |date| row_for date }.join("<br>")
+  end
+
   def gvis
     """
 <html>

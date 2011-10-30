@@ -12,7 +12,21 @@ get '/csv' do
   @data.csv
 end
 
-get '/:fund' do
+get '/chart/:fund' do
   @data ||= InterestingStatementFactory.new.read_data_from_files
   @data.fund(params[:fund]).gvis
 end
+
+get '/:fund' do
+  @data ||= InterestingStatementFactory.new.read_data_from_files
+  @data.fund(params[:fund]).to_s
+end
+
+
+
+
+
+
+
+
+
