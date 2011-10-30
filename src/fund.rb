@@ -25,7 +25,7 @@ class Fund
 
   def write_units(date, units)
     @units ||= {}
-    @units[date] = units
+    @units[date] = Units.new(units)
   end
 
   def units_for(date)
@@ -33,7 +33,7 @@ class Fund
   end
 
   def delta_units_for(date)
-    previous_value = units_for(date - 1.month) || 0
+    previous_value = units_for(date - 1.month) || Units.new(0)
     units_for(date) - previous_value
   end
 

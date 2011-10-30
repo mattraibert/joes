@@ -49,7 +49,7 @@ class InterestingStatementFactoryTest < MiniTest::Unit::TestCase
 
     investments = InterestingStatementFactory.new.build_investments [stmt_stub1, stmt_stub2]
 
-    assert_equal(4.336, investments.fund("fund1").units_for(date))
+    assert_equal(Units.new(4.336), investments.fund("fund1").units_for(date))
   end
 end
 
