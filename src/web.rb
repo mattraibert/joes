@@ -22,11 +22,8 @@ get '/:fund' do
   @data.fund(params[:fund]).to_s
 end
 
-
-
-
-
-
-
-
-
+get '/csv/:fund' do
+  content_type "application/octet-stream"
+  @data ||= InterestingStatementFactory.new.read_data_from_files
+  @data.fund(params[:fund]).csv
+end

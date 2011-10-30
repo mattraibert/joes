@@ -50,6 +50,10 @@ class Fund
     "Name, Symbol, Type, Date, Shares, Price, Balance<br>" + dates.map { |date| row_for date }.join("<br>")
   end
 
+  def csv
+    "Name, Symbol, Type, Date, Shares, Price, Balance\n" + dates.map { |date| row_for date }.join("\n")
+  end
+
   def gvis
     """
 <html>
