@@ -25,7 +25,11 @@ class Units
     value <=> comparable.value
   end
 
+  def to_f
+    (@value / 1000.0)
+  end
+
   def to_s
-    (@value / 1000.0).to_s
+    to_f.to_s
   end
 end
