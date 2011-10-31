@@ -1,3 +1,7 @@
+require 'units'
+require 'date'
+require 'active_support/core_ext'
+
 class Fund
   attr_reader :name
 
@@ -32,6 +36,29 @@ class Fund
     @units[date] || Units.zero
   end
 
+  def symbol
+    {"iShares Russell 1000 Growth Index Fund" => "IWF",
+      "iShares Russell 1000 Value Index Fund" => "IWD",
+      "iShares Russell 2000 Index Fund" => "IWM",
+      "iShares Barclays TIPS Bond Fund" => "TIP",
+      "Vanguard Total Bond Market ETF" => "BND",
+      "Vanguard Europe Pacific ETF" => "VEA",
+      "SPDR S&P 500 ETF Trust" => "SPY",
+      "NASDAQ 100 Trust Shares" => "QQQ",
+      "SPDR DJIA Trust" => "DIA",
+      "SPDR S&P MidCap 400 ETF Trust" => "MDY",
+      "iShares Dow Jones Select Dividend Index Fund" => "DVY",
+      "iShares Barclays 7-10 Year Treasury Bond Fund" => "IEF",
+      "iShares Barclays 1-3 Year Treasury Bond Fund" => "SHY",
+      "RBB Fd Inc Money Mkt Ptf" => "BDMXX",
+      "Vanguard Emerging Markets Stock ETF" => "VWO",
+      "Vanguard REIT ETF" => "VNQ",
+      "iShares Barclays Aggregate Bond Fund" => "BND",
+      "iShares Cohen & Steers Realty Majors Index Fund" => "VNQ",
+      "iShares MSCI Emerging Markets Index Fund" => "VWO",
+      "iShares MSCI EAFE Index Fund" => "VEA"}[name]
+  end
+
   def find_units_backwards(date)
     @units[date - 1.day] || units_for(@units.keys.select { |key| key < date }.last)
   end
@@ -47,19 +74,32 @@ class Fund
   end
 
   def dates
+    @balances ||= {}
     @balances.keys
   end
 
+  def transaction_dates
+    dates.reject { |date| delta_units_for(date) == Units.zero }
+  end
+
+  def transactions
+    transaction_dates.map { |date| row_for date }
+  end
+
+  def price_per_share date
+    contribution_for(date) / delta_units_for(date)
+  end
+
   def row_for(date)
-    "#{name}, ,Buy, #{date}, #{units_for(date)}, #{contribution_for(date)}, #{balance_for(date)}"
+    "#{name}, #{symbol}, Buy, #{date}, #{delta_units_for(date)}, #{contribution_for(date)}"
   end
 
   def to_s
-    "Name, Symbol, Type, Date, Shares, Price, Balance<br>" + dates.map { |date| row_for date }.join("<br>")
+    "Name, Symbol, Type, Date, Shares, Price<br>" + transactions.join("<br>")
   end
 
   def csv
-    "Name, Symbol, Type, Date, Shares, Price, Balance\n" + dates.map { |date| row_for date }.join("\n")
+    "Name, Symbol, Type, Date, Shares, Price\n" + transactions.join("\n")
   end
 
   def gvis
