@@ -43,9 +43,11 @@ class InterestingStatementFactory
 
   def read_statements
     #todo allow user to specify source file directory
-    Dir.glob("*-*-*.txt").map do |filename|
-      file_lines = IO.read(filename).split("\n")
-      read_file(filename, file_lines)
+    Dir.chdir("dailies") do
+      Dir.glob("*-*-*.txt").map do |filename|
+        file_lines = IO.read(filename).split("\n")
+        read_file(filename, file_lines)
+      end
     end
   end
 
