@@ -1,7 +1,7 @@
 class Units
   attr_reader :value
 
-  def initialize value
+  def initialize(value)
     @value = (value * 1000).to_i
   end
 
@@ -9,19 +9,19 @@ class Units
     @zero ||= Units.new(0)
   end
 
-  def + addend
+  def +(addend)
     Units.new((value + addend.value) / 1000.0)
   end
 
-  def - subtrahend
+  def -(subtrahend)
     Units.new((value - subtrahend.value) / 1000.0)
   end
 
-  def == comparable
+  def ==(comparable)
     value == comparable.value
   end
 
-  def <=> comparable
+  def <=>(comparable)
     value <=> comparable.value
   end
 

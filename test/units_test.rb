@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'units'
+require '../src/units'
 
 class UnitsTest < MiniTest::Unit::TestCase
   def test_units

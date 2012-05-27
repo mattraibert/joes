@@ -1,9 +1,9 @@
 require 'minitest/autorun'
-require 'util'
+require '../src/util'
 
 class UtilTest < MiniTest::Unit::TestCase
   def test_items_following
-    data = ["I", "want", "text", "that", "follows", "this", "THESE", "TWO", "NOT", "THIS"]
+    data = %w(I want text that follows this THESE TWO NOT THIS)
     result = []
     data.items_following(/this/) do |items|
       result << items[0]

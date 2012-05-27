@@ -86,7 +86,7 @@ class Fund
     transaction_dates.map { |date| row_for date }
   end
 
-  def price_per_share date
+  def price_per_share(date)
     contribution_for(date) / delta_units_for(date)
   end
 
@@ -113,7 +113,7 @@ class Fund
       function drawChart() {
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Date');
-        data.addColumn('number','#{@name}');
+        data.addColumn('number','#@name');
         data.addColumn('string', 'title1');
         data.addColumn('string', 'text1');
         data.addRows([#{rows}]);

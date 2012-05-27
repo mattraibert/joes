@@ -12,7 +12,7 @@ class Investments
   end
 
   def csv
-    csv = [(["Date"] + fund_names).join(', ')]
+    csv = [(%w(Date) + fund_names).join(', ')]
     csv += fund("TOTAL").dates.map do |date|
       ([date] + fund_names.map {|name| fund(name).balance_for(date) }).join(', ')
     end

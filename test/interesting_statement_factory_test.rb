@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'interesting_statement_factory'
+require '../src/interesting_statement_factory'
 require 'grasshopper'
 
 class InterestingStatementFactoryTest < MiniTest::Unit::TestCase
@@ -32,7 +32,7 @@ class InterestingStatementFactoryTest < MiniTest::Unit::TestCase
   end
 
   def test_build_investments
-    fund_names = ["fund1", "fund2", "TOTAL"]
+    fund_names = %w(fund1 fund2 TOTAL)
     stmt_stub1 = StatementStub.new(fund_names, [99.2, 25.6, 100], [1.1, 2.2, 3.3], [], [], Date.new(2011, 2, 1))
     stmt_stub2 = StatementStub.new(fund_names, [12.2, 4.6, 100], [1.4, 2.4, 3.8], [], [], Date.new(2011, 2, 2))
 
@@ -56,7 +56,7 @@ end
 class StatementStub
   attr_reader :funds, :balances, :date, :contributions, :units_funds, :units
 
-  def initialize funds, balances, contributions, units_funds, units, date
+  def initialize(funds, balances, contributions, units_funds, units, date)
     @funds = funds
     @balances = balances
     @date = date
