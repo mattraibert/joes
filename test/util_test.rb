@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require '../src/util'
+require 'util'
 
 class UtilTest < MiniTest::Unit::TestCase
   def test_items_following

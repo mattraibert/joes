@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require '../src/fund'
+require 'fund'
 require 'date'
 require 'active_support/core_ext'
 

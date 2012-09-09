@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require '../src/interesting_statement_lines'
+require 'interesting_statement_lines'
 
 class InterestingStatementLinesTest < MiniTest::Unit::TestCase
   def test_parse_funds

@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require '../src/interesting_statement_factory'
+require 'interesting_statement_factory'
 require 'grasshopper'
 
 class InterestingStatementFactoryTest < MiniTest::Unit::TestCase
